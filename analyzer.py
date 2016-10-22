@@ -1,6 +1,20 @@
 import json, urllib2, time
 from datetime import datetime
 from time import mktime
+from yahoo_finance import Share
+import pandas_datareader as pdr
+import pandas_datareader.data as web
+import datetime
+#pdr.get_data_yahoo('AAPL')
+start = datetime.datetime(2010, 1, 1)
+
+end = datetime.datetime(2015, 1, 27)
+
+f = web.DataReader("F", 'yahoo', start, end)
+
+print(f.ix['2010-01-04'])
+act = web.DataReader('AAPL', 'yahoo-actions', start, end)
+print(act)
 
 from neuralNetwork import NeuralNetwork
 
@@ -69,6 +83,9 @@ def getTimeSeriesValues(values, window):
 ## ================================================================
 
 def getHistoricalData(stockSymbol):
+    yahoo = Share('YHOO')
+    his1 = yahoo.get_historical('2014-04-25', '2014-04-29')
+    print(his1)
     historicalPrices = []
     
     # login to API
@@ -82,8 +99,6 @@ def getHistoricalData(stockSymbol):
             tempLine = line.split(',')
             price = float(tempLine[1])
             historicalPrices.append(price)
-            print("line")
-            print(tempLine)
 
     return historicalPrices
 
